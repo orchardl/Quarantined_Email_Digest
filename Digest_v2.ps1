@@ -9,7 +9,7 @@ $fromEmailError = <Error-Email-Admin@yourDomain.com> # make sure to include the 
 $toEmailError = yourEmail@yourDomain.com
 $emailAdmin = <noreply@yourDomain.com> # make sure to include the <>
 
-$workingDirectory = "<path to your project directory>"
+$workingDirectory = "C:\path\to\your\working\directory"
 $dateFile = $workingDirectory + "\date.txt"
 
 function Write-Log {
