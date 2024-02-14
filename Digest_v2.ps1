@@ -1,3 +1,6 @@
+#########################################################
+# Please modify these variables according to your needs #
+#########################################################
 $thumbprint = <your certificate thumbprint>
 $org = <your org>.onmicrosoft.com # this should be formatted like contosco.onmicrosoft.com
 $appID = <your app id>
