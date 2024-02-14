@@ -135,7 +135,12 @@ try {
 "@
         foreach ($message in $newMessages) {
             if ($message.RecipientAddress -eq $recipient) {
-                $messageTable += "<tr><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($message.ReceivedTime)</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($message.SenderAddress)</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($message.RecipientAddress)</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($message.Subject)</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($message.Type)</td></tr>"
+                if ($message.Subject -match '(http|https)://|www\.') {
+                    $subjectDisplay = "Subject removed for security."
+                } else {
+                    $subjectDisplay = $message.Subject
+                }
+                $messageTable += "<tr><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($message.ReceivedTime)</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($message.SenderAddress)</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($message.RecipientAddress)</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($subjectDisplay)</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($message.Type)</td></tr>"
             }
         }
         $messageTable += "</table>"
