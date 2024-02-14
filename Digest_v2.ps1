@@ -1,15 +1,15 @@
 #########################################################
 # Please modify these variables according to your needs #
 #########################################################
-$thumbprint = <your certificate thumbprint>
-$org = <your org>.onmicrosoft.com # this should be formatted like contosco.onmicrosoft.com
-$appID = <your app id>
-$SMTPServer = <your SMTP server>
-$fromEmailError = <Error-Email-Admin@yourDomain.com> # make sure to include the <>
-$toEmailError = yourEmail@yourDomain.com
-$emailAdmin = <noreply@yourDomain.com> # make sure to include the <>
+$thumbprint = "<your certificate thumbprint>"
+$org = "<your org>.onmicrosoft.com" # this should be formatted like contosco.onmicrosoft.com
+$appID = "your app id"
+$SMTPServer = "your SMTP server"
+$fromEmailError = "<Error-Email-Admin@yourDomain.com>" # make sure to include the <>
+$toEmailError = "yourEmail@yourDomain.com"
+$emailAdmin = "<noreply@yourDomain.com>" # make sure to include the <>
 $workingDirectory = "C:\path\to\your\working\directory"
-$HelpDesk = HelpDesk@yourDomain.com
+$HelpDesk = "HelpDesk@yourDomain.com"
 
 $dateFile = $workingDirectory + "\date.txt"
 
