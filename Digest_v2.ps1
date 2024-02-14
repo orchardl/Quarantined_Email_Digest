@@ -9,6 +9,7 @@ $fromEmailError = <Error-Email-Admin@yourDomain.com> # make sure to include the 
 $toEmailError = yourEmail@yourDomain.com
 $emailAdmin = <noreply@yourDomain.com> # make sure to include the <>
 $workingDirectory = "C:\path\to\your\working\directory"
+$HelpDesk = HelpDesk@yourDomain.com
 
 $dateFile = $workingDirectory + "\date.txt"
 
@@ -153,7 +154,7 @@ p { margin: 16px 0; }
 <h2>Quarantined Email Digest</h2>
 <p>The following emails were quarantined in the last 24 hours:</p>
 $messageTable
-<p>To request a re-review or release of these messages please forward this email to HelpDesk@<yourDomain>.com with a description of the business need for this email.</p>
+<p>To request a re-review or release of these messages please forward this email to $HelpDesk with a description of the business need for this email.</p>
 <p>Thanks! -IT Security Team</p>
 </body>
 </html>
