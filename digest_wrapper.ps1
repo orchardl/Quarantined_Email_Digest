@@ -1,4 +1,9 @@
- # Digest_Wrapper.ps1
+#########################################################
+# Please modify these variables according to your needs #
+#########################################################
+$fromEmailError = <Error-Email-Admin@yourDomain.com> # make sure to format this with the <>
+$toEmailError = yourEmail@yourDomain.com
+$SMTPServer = smtp.yourDomain.com
 
 $workingDirectory = "<path to your project directory"
 $dateFile = $workingDirectory + "\date.txt"
@@ -59,7 +64,7 @@ if (Get-Job -Id $job.Id -State Running) {
     Stop-Job -Id $job.Id
     Remove-Job -Id $job.Id
     Write-Log -Level ERROR -Message "The script has been terminated because it exceeded the 15-minute time limit."
-    Send-MailMessage -From "Script Run Failure <Error-Email-Admin@yourDomain.com>" -To yourEmail@yourDomain.com -Subject "Terminal Failure: Quarantined Email Digest" -Body "The script has been terminated because it exceeded the 15-minute time limit." -SmtpServer "smtp.yourDomain.com"
+    Send-MailMessage -From "Script Run Failure $fromEmailError" -To $toEmailError -Subject "Terminal Failure: Quarantined Email Digest" -Body "The script has been terminated because it exceeded the 15-minute time limit." -SmtpServer $SMTPServer
 } else {
     # Collect the job's results if it finished within the time limit
     $result = Receive-Job -Id $job.Id
