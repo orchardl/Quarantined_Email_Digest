@@ -81,7 +81,7 @@ $localTime | Out-File -FilePath $dateFile
 try {
     # Use the local times for querying
     $messages = Get-QuarantineMessage -StartReceivedDate $lastRunLocal.AddHours(-1) -EndReceivedDate $localTime -ErrorAction Stop
-    Write-Log -Message "Successfully pulled recnetly quarantined messages."
+    Write-Log -Message "Successfully pulled recently quarantined messages."
 } catch {
     Write-Log -Message "Error in pulling quarantined messages: $_" -Level ERROR
     try {
