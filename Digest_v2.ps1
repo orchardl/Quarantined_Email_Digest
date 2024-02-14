@@ -135,13 +135,17 @@ try {
 "@
         foreach ($message in $newMessages) {
             if ($message.RecipientAddress -eq $recipient) {
-                if ($message.Subject -match '(http|https)://|www\.') {
-                    $subjectDisplay = "Subject removed for security."
+                # Check if $message.Subject contains a domain-like pattern
+                # This pattern matches one or more alphanumeric characters followed by a period and then two or more letters
+                if ($message.Subject -match '\b[a-zA-Z0-9]+?\.[a-zA-Z]{2,}\b') {
+                    $subjectDisplay = "***Subject removed for security***"
                 } else {
                     $subjectDisplay = $message.Subject
                 }
-                $messageTable += "<tr><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($message.ReceivedTime)</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($message.SenderAddress)</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($message.RecipientAddress)</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($subjectDisplay)</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($message.Type)</td></tr>"
+            
+                $messageTable += "<tr><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($message.ReceivedTime)</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($message.SenderAddress)</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($message.RecipientAddress)</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$subjectDisplay</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($message.Type)</td></tr>"
             }
+
         }
         $messageTable += "</table>"
 
