@@ -1,4 +1,12 @@
- $workingDirectory = "<path to your project directory>"
+$thumbprint = <your certificate thumbprint>
+$org = <your org>.onmicrosoft.com # this should be formatted like contosco.onmicrosoft.com
+$appID = <your app id>
+$SMTPServer = <your SMTP server>
+$fromEmailError = <Error-Email-Admin@yourDomain.com> # make sure to include the <>
+$toEmailError = yourEmail@yourDomain.com
+$emailAdmin = <noreply@yourDomain.com> # make sure to include the <>
+
+$workingDirectory = "<path to your project directory>"
 $dateFile = $workingDirectory + "\date.txt"
 
 function Write-Log {
@@ -43,12 +51,12 @@ function Write-Log {
 
 try {
     # Step 1: Connect to Exchange Online
-    Connect-ExchangeOnline -CertificateThumbPrint <your certificate thumbprint> -AppID <your app id> -Organization "<your org>.onmicrosoft.com" -ShowBanner:$false -ErrorAction Stop
+    Connect-ExchangeOnline -CertificateThumbPrint $thumbprint -AppID $appID -Organization $org -ShowBanner:$false -ErrorAction Stop
     Write-Log -Message "Successfully Connected to Exchange Online"
 } catch {
     Write-Log -Message "Failure in Connecting to Exchange Online: $_" -Level ERROR
     try {
-        Send-MailMessage -From "Script Run Failure <Error-Email-Admin@yourDomain.com>" -To yourEmail@yourDomain.com -Subject "Terminal Failure: Quarantined Email Digest" -Body $_ -SmtpServer "smtp.yourDomain.com"
+        Send-MailMessage -From "Script Run Failure $fromEmailError" -To $toEmailError -Subject "Terminal Failure: Quarantined Email Digest" -Body $_ -SmtpServer $SMTPServer
         Write-Log -Message "Successfully sent ERROR email."
     } catch {
         Write-Log -Level ERROR -Message "Everything is broken. It's time to cry now. $_"
@@ -73,7 +81,7 @@ try {
 } catch {
     Write-Log -Message "Error in pulling quarantined messages: $_" -Level ERROR
     try {
-        Send-MailMessage -From "Script Run Failure <Error-Email-Admin@yourDomain.com>" -To yourEmail@yourDomain.com -Subject "Terminal Failure: Quarantined Email Digest" -Body $_ -SmtpServer "smtp.yourDomain.com"
+        Send-MailMessage -From "Script Run Failure $toEmailError" -To $toEmailError -Subject "Terminal Failure: Quarantined Email Digest" -Body $_ -SmtpServer $SMTPServer
         Write-Log -Message "Successfully sent ERROR email."
     } catch {
         Write-Log -Level ERROR -Message "Everything is broken. It's time to cry now. $_"
@@ -148,10 +156,10 @@ $messageTable
 </html>
 "@
 
-        # Remove If statement and leave Send-MailMessage once ready to move to production
+        # This sends the emails to the users who have a quarantined message
         try {
             $recipientArray = $recipient -split ","
-            Send-MailMessage -From "noreply <Email-Admin@<yourDomain>.com>" -To $recipientArray -Subject "Quarantined Email Digest" -Body $body -BodyAsHtml -SmtpServer "smtp.<yourDomain>.com"
+            Send-MailMessage -From "noreply $emailAdmin" -To $recipientArray -Subject "Quarantined Email Digest" -Body $body -BodyAsHtml -SmtpServer $SMTPServer
             Write-Log -Message "Successfully sent email to, $recipient"
         } catch {
             Write-Log -Level ERROR -Message "Error in sending email to ($recipient): $_"
