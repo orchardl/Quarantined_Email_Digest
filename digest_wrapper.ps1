@@ -4,8 +4,8 @@
 $fromEmailError = <Error-Email-Admin@yourDomain.com> # make sure to format this with the <>
 $toEmailError = yourEmail@yourDomain.com
 $SMTPServer = smtp.yourDomain.com
+$workingDirectory = "C:\path\to\your\working\directory"
 
-$workingDirectory = "<path to your project directory"
 $dateFile = $workingDirectory + "\date.txt"
 
 function Write-Log {
