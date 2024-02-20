@@ -133,23 +133,26 @@ try {
         <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Quarantine Reason</th>
     </tr>
 "@
-        foreach ($message in $newMessages) {
+         foreach ($message in $newMessages) {
             if ($message.RecipientAddress -eq $recipient) {
-                # Check if $message.Subject contains a domain-like pattern
-                # This pattern matches one or more alphanumeric characters followed by a period and then two or more letters
-                if ($message.Subject -match '\b[a-zA-Z0-9]+?\.[a-zA-Z]{2,}\b') {
-                    $subjectDisplay = "***Subject removed for security***"
-                } else {
-                    $subjectDisplay = $message.Subject
-                }
-            
+                # I'm saving the below code in case I ever want to reference it, but I'm using a simplified approach now below
+                ## Check if $message.Subject contains a domain-like pattern
+                ## This pattern matches one or more alphanumeric characters followed by a period and then two or more letters
+                #if ($message.Subject -match '\b[a-zA-Z0-9]+?\.[a-zA-Z]{2,}\b') {
+                #    $subjectDisplay = "***Subject removed for security***"
+                #} else {
+                #    $subjectDisplay = $message.Subject
+                #}
+
+                # I decided to instead simply replace any periods or colons with a period or colon inside a square bracket
+                $subjectDisplay = $message.Subject -replace '\.', '[.]'
+                $subjectDisplay = $subjectDisplay -replace '://', '[:]//'
                 $messageTable += "<tr><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($message.ReceivedTime)</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($message.SenderAddress)</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($message.RecipientAddress)</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$subjectDisplay</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($message.Type)</td></tr>"
             }
-
         }
         $messageTable += "</table>"
 
-        # Enhancements for aesthetics
+        # Enhancements for aesthetics 
         $body = @"
 <html>
 <head>
