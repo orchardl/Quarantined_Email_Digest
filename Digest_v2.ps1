@@ -123,9 +123,11 @@ $uniqueRecipients = ($newMessages).RecipientAddress | Sort-Object | Get-Unique
 
 try {
     foreach ($recipient in $uniqueRecipients) {
+        $messageCounter = 0
         $messageTable = @"
 <table style="border-collapse: collapse; width: 100%;">
     <tr>
+        <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">id</th>
         <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Received Time (MT)</th>
         <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Sender Address</th>
         <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Recipient Address</th>
@@ -147,7 +149,8 @@ try {
                 # I decided to instead simply replace any periods or colons with a period or colon inside a square bracket
                 $subjectDisplay = $message.Subject -replace '\.', '[.]'
                 $subjectDisplay = $subjectDisplay -replace '://', '[:]//'
-                $messageTable += "<tr><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($message.ReceivedTime)</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($message.SenderAddress)</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($message.RecipientAddress)</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$subjectDisplay</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($message.Type)</td></tr>"
+                $messageCounter = $messageCounter + 1
+                $messageTable += "<tr><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$messageCounter</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($message.ReceivedTime)</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($message.SenderAddress)</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($message.RecipientAddress)</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$subjectDisplay</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>$($message.Type)</td></tr>"
             }
         }
         $messageTable += "</table>"
@@ -166,7 +169,7 @@ p { margin: 16px 0; }
 <h2>Quarantined Email Digest</h2>
 <p>The following emails were quarantined in the last hour:</p>
 $messageTable
-<p>To request a re-review or release of these messages please forward this email to $HelpDesk with a description of the business need for this email.</p>
+<p>To request a re-review or release of these messages please forward this email to $HelpDesk with, (1) the ID of the email to be released and (2) a description of the business need for this email.</p>
 <p>Thanks! -IT Security Team</p>
 </body>
 </html>
