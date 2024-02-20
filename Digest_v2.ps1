@@ -169,7 +169,7 @@ p { margin: 16px 0; }
 <h2>Quarantined Email Digest</h2>
 <p>The following emails were quarantined in the last hour:</p>
 $messageTable
-<p>To request a re-review or release of these messages please forward this email to $HelpDesk with, (1) the ID of the email to be released and (2) a description of the business need for this email.</p>
+<p>To request a re-review or release of these messages please forward this email to $HelpDesk with, (1) the ID, sender, and subject of the email to be released and (2) a description of the business need for this email.</p>
 <p>Thanks! -IT Security Team</p>
 </body>
 </html>
